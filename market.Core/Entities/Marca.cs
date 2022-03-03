@@ -1,6 +1,6 @@
 ﻿namespace market.Core.Entities
 {
-    public class Marca
+    public class Marca : ClaseBase
     {
         public string Nombre { get; set; }
     }

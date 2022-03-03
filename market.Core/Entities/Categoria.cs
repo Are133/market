@@ -1,6 +1,6 @@
 ﻿namespace market.Core.Entities
 {
-    public class Categoria
+    public class Categoria : ClaseBase
     {
         public string Nombre { get; set; }
     }
