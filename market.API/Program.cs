@@ -1,14 +1,15 @@
-using market.BusinessLogic.Data;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace market.API
 {
+    using market.BusinessLogic.Data;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using System;
+    using System.Threading.Tasks;
+
     public class Program
     {
         public static async Task Main(string[] args)
@@ -24,6 +25,7 @@ namespace market.API
                 {
                     var context = services.GetRequiredService<MarketDbContext>();
                     await context.Database.MigrateAsync();
+                    await MarketDbContextData.CargarDataAsync(context, loggerFactory);
                 }
                 catch (Exception ex)
                 {
