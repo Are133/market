@@ -1,21 +1,32 @@
 ﻿namespace market.BusinessLogic.Logic
 {
+    using market.BusinessLogic.Data;
     using market.Core.Entities;
     using market.Core.Interfaces;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class ProductRepository : IProductoRepository
     {
-        public Task<Producto> GetProductoByIdAsync(int id)
+        private readonly MarketDbContext _context;
+        public ProductRepository(MarketDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<Producto> GetProductoByIdAsync(int id)
+        {
+            return await _context.Productos.Include(producto => producto.Marca)
+                .Include(producto => producto.Categoria)
+                .FirstOrDefaultAsync(producto => producto.Id == id);
         }
 
-        public Task<IReadOnlyList<Producto>> GetProductosAsync()
+        public async Task<IReadOnlyList<Producto>> GetProductosAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Productos.Include(producto => producto.Marca)
+                .Include(producto => producto.Categoria)
+                .ToListAsync();
         }
     }
 }
