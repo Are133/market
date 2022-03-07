@@ -14,6 +14,16 @@
                 inputQuery = inputQuery.Where(spec.Criteria);
             }
 
+            if(spec.OrderBy != null)
+            {
+                inputQuery = inputQuery.OrderBy(spec.OrderBy);
+            }
+
+            if(spec.OrderByDescendign != null)
+            {
+                inputQuery = inputQuery.OrderByDescending(spec.OrderByDescendign);
+            }
+
             inputQuery = spec.Includes.Aggregate(inputQuery, (current, include) => current.Include(include));
 
             return inputQuery;

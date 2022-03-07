@@ -2,16 +2,13 @@
 {
     using market.Core.Entities;
     using market.Core.Interfaces;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriaController : ControllerBase
+    public class CategoriaController : BaseAPIController
     {
         private readonly IGenericRepository<Categoria> _categoriaRepository;
 
@@ -27,7 +24,7 @@
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Categoria>>GetCategoriaById(int id)
+        public async Task<ActionResult<Categoria>> GetCategoriaById(int id)
         {
             return await _categoriaRepository.GetByIdAsync(id);
         }
