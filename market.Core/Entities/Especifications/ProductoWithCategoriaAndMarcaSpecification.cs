@@ -3,8 +3,9 @@
     public class ProductoWithCategoriaAndMarcaSpecification : BaseEspecifications<Producto>
     {
         public ProductoWithCategoriaAndMarcaSpecification(ProductoSpecificationParams productoSpecificationParams)
-            :base(mc => (!productoSpecificationParams.Marca.HasValue || mc.MarcaId == productoSpecificationParams.Marca)&&
-                        (!productoSpecificationParams.Categoria.HasValue || mc.CategoriaId == productoSpecificationParams.Categoria))
+            :base(mc => (string.IsNullOrEmpty(productoSpecificationParams.Search) || mc.Nombre.Contains(productoSpecificationParams.Search))&&
+            (!productoSpecificationParams.Marca.HasValue || mc.MarcaId == productoSpecificationParams.Marca)&&
+            (!productoSpecificationParams.Categoria.HasValue || mc.CategoriaId == productoSpecificationParams.Categoria))
         {
             AddInclude(producto => producto.Categoria);
             AddInclude(producto => producto.Marca);
