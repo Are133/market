@@ -1,5 +1,6 @@
 ﻿namespace market.Core.Entities.Especifications
 {
+    using Core.Entities;
     public class ProductoForCountingSpecification : BaseEspecifications<Producto>
     {
         public ProductoForCountingSpecification(ProductoSpecificationParams productoParams)

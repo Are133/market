@@ -15,5 +15,7 @@ namespace market.Core.Interfaces
         Task<T> GetByIdWithSpec(IEspecification<T> spec);
 
         Task<IReadOnlyList<T>> GetAllWithSpec(IEspecification<T> spec);
+
+        Task<int> CountAsync(IEspecification<T> spec);
     }
 }
