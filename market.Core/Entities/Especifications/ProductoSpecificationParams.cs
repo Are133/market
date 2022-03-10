@@ -20,5 +20,6 @@
             set => _pageSize = (value > MaxPageIndex) ? MaxPageIndex : value;
         }
 
+        public string Search { get; set; }
     }
 }
