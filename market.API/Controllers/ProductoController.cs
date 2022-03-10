@@ -5,6 +5,7 @@ using market.Core.Entities;
 using market.Core.Entities.Especifications;
 using market.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,11 +25,29 @@ namespace market.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Producto>>> GetProductos([FromQuery]ProductoSpecificationParams productoSpecificationParams)
+        public async Task<ActionResult<Pagination<ProductoDto >>> GetProductos([FromQuery] ProductoSpecificationParams productoSpecificationParams)
         {
             var spec = new ProductoWithCategoriaAndMarcaSpecification(productoSpecificationParams);
             var productos = await _productoRepository.GetAllWithSpec(spec);
-            return Ok(_mapper.Map<IReadOnlyList<Producto>, IReadOnlyList<ProductoDto>>(productos));
+
+            var specCount = new ProductoForCountingSpecification(productoSpecificationParams);
+
+            var totalProductos = await _productoRepository.CountAsync(specCount);
+
+            var rounded = Math.Ceiling(Convert.ToDecimal(totalProductos / productoSpecificationParams.PageSize));
+
+            var totalPages = Convert.ToInt32(rounded);
+
+            var data = _mapper.Map<IReadOnlyList<Producto>, IReadOnlyList<ProductoDto>>(productos);
+
+            return Ok(new Pagination<ProductoDto>
+            {
+                Count = totalProductos,
+                Data = data,
+                PageCount = totalPages,
+                PageIndex = productoSpecificationParams.PageIndex,
+                PageSize = productoSpecificationParams.PageSize
+            });
         }
 
         [HttpGet("{id}")]
