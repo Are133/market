@@ -28,6 +28,7 @@ namespace market.Core.Entities.Especifications
 
         public Expression<Func<T, object>> OrderByDescendign { get; private set; }
 
+
         protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
         {
             OrderBy = orderByExpression;
@@ -37,5 +38,19 @@ namespace market.Core.Entities.Especifications
         {
             OrderByDescendign = orderByDescExpression;
         }
+
+        public int Take { get; private set; }
+
+        public int Skip { get; private set; }
+
+        public bool IsPagingEnabled { get; private set; }
+
+        protected void ApplyPagin(int skip, int take)
+        {
+            Skip = skip;
+            Take = take;
+            IsPagingEnabled = true;
+        }
+
     }
 }

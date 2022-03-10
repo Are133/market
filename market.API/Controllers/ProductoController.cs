@@ -24,9 +24,9 @@ namespace market.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Producto>>> GetProductos(string sort, int? marca, int? categoria)
+        public async Task<ActionResult<List<Producto>>> GetProductos([FromQuery]ProductoSpecificationParams productoSpecificationParams)
         {
-            var spec = new ProductoWithCategoriaAndMarcaSpecification(sort, marca, categoria);
+            var spec = new ProductoWithCategoriaAndMarcaSpecification(productoSpecificationParams);
             var productos = await _productoRepository.GetAllWithSpec(spec);
             return Ok(_mapper.Map<IReadOnlyList<Producto>, IReadOnlyList<ProductoDto>>(productos));
         }
