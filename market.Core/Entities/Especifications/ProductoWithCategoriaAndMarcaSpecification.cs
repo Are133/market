@@ -2,16 +2,18 @@
 {
     public class ProductoWithCategoriaAndMarcaSpecification : BaseEspecifications<Producto>
     {
-        public ProductoWithCategoriaAndMarcaSpecification(string sort, int? marca, int? categoria)
-            :base(mc => (!marca.HasValue || mc.MarcaId == marca)&&
-                        (!categoria.HasValue || mc.CategoriaId == categoria))
+        public ProductoWithCategoriaAndMarcaSpecification(ProductoSpecificationParams productoSpecificationParams)
+            :base(mc => (!productoSpecificationParams.Marca.HasValue || mc.MarcaId == productoSpecificationParams.Marca)&&
+                        (!productoSpecificationParams.Categoria.HasValue || mc.CategoriaId == productoSpecificationParams.Categoria))
         {
             AddInclude(producto => producto.Categoria);
             AddInclude(producto => producto.Marca);
 
-            if (!string.IsNullOrEmpty(sort))
+            ApplyPagin(productoSpecificationParams.PageSize * (productoSpecificationParams.PageIndex - 1), productoSpecificationParams.PageSize );
+
+            if (!string.IsNullOrEmpty(productoSpecificationParams.Sort))
             {
-                switch (sort)
+                switch (productoSpecificationParams.Sort)
                 {
                     case "nombreAsc":
                         AddOrderBy(producto => producto.Nombre);
